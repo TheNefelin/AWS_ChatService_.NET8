@@ -20,6 +20,11 @@ AWS_ChatService_Domain
 AWS_ChatService_Infrastructure
 AWS_ChatService_Application
 ```
+- xUnitTest
+```
+Moq
+AWS_ChatService_Application
+```
 
 ---
 
