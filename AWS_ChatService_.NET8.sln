@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.36105.23 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWS_ChatService_Domain", "AWS_ChatService_Domain\AWS_ChatService_Domain.csproj", "{AB7A01ED-8B1E-440A-81A1-EBA8EFEEDCD3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		PostgreSQL.sql = PostgreSQL.sql
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWS_ChatService_Infrastructure", "AWS_ChatService_Infrastructure\AWS_ChatService_Infrastructure.csproj", "{314414BA-1DFE-4FFA-825D-8D7007DC7304}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWS_ChatService_API", "AWS_ChatService_API\AWS_ChatService_API.csproj", "{52E551A7-C4DD-4F0C-B4AA-8706B07AC8AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWS_ChatService_Application", "AWS_ChatService_Application\AWS_ChatService_Application.csproj", "{72996472-EC1F-4128-9CD0-052580C0B5C9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB7A01ED-8B1E-440A-81A1-EBA8EFEEDCD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB7A01ED-8B1E-440A-81A1-EBA8EFEEDCD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB7A01ED-8B1E-440A-81A1-EBA8EFEEDCD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB7A01ED-8B1E-440A-81A1-EBA8EFEEDCD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{314414BA-1DFE-4FFA-825D-8D7007DC7304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{314414BA-1DFE-4FFA-825D-8D7007DC7304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{314414BA-1DFE-4FFA-825D-8D7007DC7304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{314414BA-1DFE-4FFA-825D-8D7007DC7304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52E551A7-C4DD-4F0C-B4AA-8706B07AC8AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52E551A7-C4DD-4F0C-B4AA-8706B07AC8AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52E551A7-C4DD-4F0C-B4AA-8706B07AC8AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52E551A7-C4DD-4F0C-B4AA-8706B07AC8AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72996472-EC1F-4128-9CD0-052580C0B5C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72996472-EC1F-4128-9CD0-052580C0B5C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72996472-EC1F-4128-9CD0-052580C0B5C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72996472-EC1F-4128-9CD0-052580C0B5C9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {179AAF47-C81F-4133-86EB-63030F36C40A}
+	EndGlobalSection
+EndGlobal
