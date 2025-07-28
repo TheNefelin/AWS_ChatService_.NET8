@@ -26,6 +26,20 @@ Moq
 AWS_ChatService_Application
 ```
 
+### Certificado SSL
+- Verificar certificado
+```bash
+dotnet dev-certs https --check
+```
+- Gregenerar o actualizar el certificado
+```bash
+dotnet dev-certs https --trust
+```
+- Lista de certificados en windows
+```bash
+certmgr.msc
+```
+
 ---
 
 ## 🧱 Estructura del proyecto

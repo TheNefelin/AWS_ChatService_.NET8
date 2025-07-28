@@ -38,10 +38,16 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: allowedOrigins,
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000", "http://127.0.0.1:3000")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  .AllowCredentials();
+            policy.WithOrigins(
+                    "http://localhost:3000",
+                    "http://127.0.0.1:3000",
+                    "http://localhost:4200",    // Añade tu puerto de Angular
+                    "http://127.0.0.1:4200"     // Añade tu puerto de Angular
+                )
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .SetIsOriginAllowed(_ => true);
         });
 });
 
@@ -56,10 +62,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 // 6 Enable CORS
+//app.UseRouting();
 app.UseCors(allowedOrigins);
+
+app.UseAuthorization();
 
 // 7. ChatHub Endpint
 app.MapHub<ChatHub>("/chatHub");
