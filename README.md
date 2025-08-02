@@ -45,7 +45,7 @@ certmgr.msc
 ## 🧱 Estructura del proyecto
 
 ```
-AWS_ChatMicroservice_.NET8/
+AWS_ChatService_.NET8/
 │
 ├── AWS_API/                            → Web API
 │   ├── Controllers/
