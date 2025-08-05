@@ -60,15 +60,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// 6 Swagger Configuration for Production
+app.UseSwagger();
+app.UseSwaggerUI(c => {
+    c.SwaggerEndpoint("./swagger/v1/swagger.json", "API v1"); // Usa "./" para compatibilidad
+    c.RoutePrefix = string.Empty;
+    c.DisplayRequestDuration(); // Opcional: muestra tiempo de respuesta
+});
+
 app.UseHttpsRedirection();
 
-// 6 Enable CORS
-//app.UseRouting();
+// 7 Enable CORS
 app.UseCors(allowedOrigins);
 
 app.UseAuthorization();
 
-// 7. ChatHub Endpint
+// 8. ChatHub Endpint
 app.MapHub<ChatHub>("/chatHub");
 
 app.MapControllers();

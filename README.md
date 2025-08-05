@@ -2,6 +2,14 @@
 
 Microservicio de chat construido en .NET 8 siguiendo principios de Clean Architecture y SOLID, preparado para despliegue en AWS Alchemy Lab.
 
+### Correr API con Dokerfile
+- Abrir CMD o PowerShell en la raiz de la solucion
+```bash
+docker build -t artema-chat-app .
+docker run -d -p 5000:80 --name chat-app artema-chat-app
+```
+- [App URL](http://localhost:5000/swagger/index.html)
+
 ### Dependencias
 - AWS_ChatService_Infrastructure
 ```
