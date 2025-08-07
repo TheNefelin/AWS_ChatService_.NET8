@@ -37,7 +37,7 @@ public class ChatRoomService : IChatRoomService
         catch (Exception ex)
         {
             _logger.LogError(ex, "[ChatRoomService] - Error fetching chat rooms");
-            return ResponseApi<IEnumerable<ChatRoomDto>>.Fail(500, $"Internal server error: {ex.Message}");
+            return ResponseApi<IEnumerable<ChatRoomDto>>.Fail(500, $"Internal server error: {ex.Message} | InnerException: {ex.InnerException?.Message}");
         }
     }
 
