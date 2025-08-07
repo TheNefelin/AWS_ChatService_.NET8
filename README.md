@@ -1,52 +1,23 @@
-﻿# AWS_ChatMicroservice_.NET8
+﻿# AWS_ChatService_.NET8
 
 Microservicio de chat construido en .NET 8 siguiendo principios de Clean Architecture y SOLID, preparado para despliegue en AWS Alchemy Lab.
 
 ### Correr API con Dokerfile
 - Abrir CMD o PowerShell en la raiz de la solucion
+- [App URL](http://localhost:5000/swagger/index.html)
 ```bash
 docker build -t artema-chat-app .
 docker run -d -p 5000:80 --name chat-app artema-chat-app
 ```
-- [App URL](http://localhost:5000/swagger/index.html)
 
 ### Dependencias
-- AWS_ChatService_Infrastructure
-```
-Dapper
-Npgsq
-Microsoft.Extensions.Configuration.Abstractions
-AWS_ChatService_Domain
-```
-- AWS_ChatService_Application
-```
-Microsoft.Extensions.Logging.Abstractions
-AWS_ChatService_Domain
-```
-- AWS_ChatService_API
-```
-AWS_ChatService_Infrastructure
-AWS_ChatService_Application
-```
-- xUnitTest
-```
-Moq
-AWS_ChatService_Application
-```
 
-### Certificado SSL
-- Verificar certificado
-```bash
-dotnet dev-certs https --check
-```
-- Gregenerar o actualizar el certificado
-```bash
-dotnet dev-certs https --trust
-```
-- Lista de certificados en windows
-```bash
-certmgr.msc
-```
+| Proyecto                             | Dependencias                                                                                    |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| **AWS\_ChatService\_Infrastructure** | Dapper<br>Npgsql<br>Microsoft.Extensions.Configuration.Abstractions<br>AWS\_ChatService\_Domain |
+| **AWS\_ChatService\_Application**    | Microsoft.Extensions.Logging.Abstractions<br>AWS\_ChatService\_Domain                           |
+| **AWS\_ChatService\_API**            | AWS\_ChatService\_Infrastructure<br>AWS\_ChatService\_Application                               |
+| **xUnitTest**                        | Moq<br>AWS\_ChatService\_Application                                                            |
 
 ---
 
@@ -55,7 +26,7 @@ certmgr.msc
 ```
 AWS_ChatService_.NET8/
 │
-├── AWS_API/                            → Web API
+├── AWS_ChatService_API/                → Web API
 │   ├── Controllers/
 │   │   ├── ChatRoomsController.cs      → Controlador REST para salas de chat (aún no implementado)
 │   │   ├── MessagesController.cs       → Controlador REST para mensajes
@@ -65,7 +36,7 @@ AWS_ChatService_.NET8/
 │   ├── appsettings.json                → Configuración de la aplicación (cadena de conexión, etc.)
 │   └── Program.cs                      → Configuración de la API y servicios
 │
-├── AWS_Application/                    → Class Library
+├── AWS_ChatService_Application/        → Class Library
 │   ├── Common/
 |   │   └── ResponseApi
 │   ├── DTOs/
@@ -85,7 +56,7 @@ AWS_ChatService_.NET8/
 │       ├── MessageService.cs           → Lógica de negocio para mensajes
 │       └── UserService.cs              → Lógica de negocio para usuarios
 │
-├── AWS_Domain/                         → Class Library
+├── AWS_ChatService_Domain/             → Class Library
 │   ├── Entities/
 │   │   ├── ChatRoom.cs                 → Entidad de sala de chat
 │   │   ├── Message.cs                  → Entidad de mensaje
@@ -95,7 +66,7 @@ AWS_ChatService_.NET8/
 │       ├── IMessageRepository.cs       → Repositorio de mensajes
 │       └── IUserRepository.cs          → Repositorio de usuarios
 │
-├── AWS_Infrastructure/                 → Class Library
+├── AWS_ChatService_Infrastructure/     → Class Library
 │   ├── Configuration/
 │   │   └── DapperConnectionFactory.cs  → Fábrica de conexiones Dapper
 │   └── Repositories/
@@ -106,7 +77,8 @@ AWS_ChatService_.NET8/
 ├── xUnitTest/
 │   └── SinTestAun/
 │
-├── docker-compose.yml                  → Para pruebas locales
+├── Dockerfile
+├── PostgreSQL.sql
 └── README.md                           → Documentación técnica
 ```
 
