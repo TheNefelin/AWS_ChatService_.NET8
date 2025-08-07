@@ -38,7 +38,7 @@ public class UserService : IUserService
         catch (Exception ex)
         {
             _logger.LogError(ex, "[UserService] - Error al obtener usuarios");
-            return ResponseApi<IEnumerable<UserDto>>.Fail(500, $"[UserService] - Error interno: {ex.Message}");
+            return ResponseApi<IEnumerable<UserDto>>.Fail(500, $"[UserService] - Error interno: {ex.Message} | InnerException: {ex.InnerException?.Message}");
         }
     }
 
@@ -61,7 +61,7 @@ public class UserService : IUserService
         catch (Exception ex)
         {
             _logger.LogError(ex, $"[UserService] - Error al obtener usuario con ID {userId}");
-            return ResponseApi<UserDto?>.Fail(500, $"Error interno: {ex.Message}");
+            return ResponseApi<UserDto?>.Fail(500, $"Error interno: {ex.Message} | InnerException: {ex.InnerException?.Message}");
         }
     }
 
@@ -83,7 +83,7 @@ public class UserService : IUserService
         catch (Exception ex)
         {
             _logger.LogError(ex, $"[UserService] - Error al crear usuario: {createUserDto.Username}");
-            return ResponseApi<UserDto>.Fail(500, $"Error interno: {ex.Message}");
+            return ResponseApi<UserDto>.Fail(500, $"Error interno: {ex.Message} | InnerException: {ex.InnerException?.Message}");
         }
     }
 
@@ -99,7 +99,7 @@ public class UserService : IUserService
         catch (Exception ex)
         {
             _logger.LogError(ex, $"[UserService] - Error al actualizar usuario: {userDto.Username}");
-            return ResponseApi<UserDto>.Fail(500, $"Error interno: {ex.Message}");
+            return ResponseApi<UserDto>.Fail(500, $"Error interno: {ex.Message} | InnerException: {ex.InnerException?.Message}");
         }
     }
 
@@ -121,7 +121,7 @@ public class UserService : IUserService
         catch (Exception ex)
         {
             _logger.LogError(ex, $"[UserService] - Error al eliminar usuario con ID {userId}");
-            return ResponseApi<bool>.Fail(500, $"Error interno: {ex.Message}");
+            return ResponseApi<bool>.Fail(500, $"Error interno: {ex.Message} | InnerException: {ex.InnerException?.Message}");
         }
     }
 }

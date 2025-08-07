@@ -37,7 +37,7 @@ public class ChatRoomService : IChatRoomService
         catch (Exception ex)
         {
             _logger.LogError(ex, "[ChatRoomService] - Error fetching chat rooms");
-            return ResponseApi<IEnumerable<ChatRoomDto>>.Fail(500, $"Internal server error: {ex.Message} | InnerException: {ex.InnerException?.Message}");
+            return ResponseApi<IEnumerable<ChatRoomDto>>.Fail(500, $"Error fetching chat rooms: {ex.Message} | InnerException: {ex.InnerException?.Message}");
         }
     }
 
@@ -53,7 +53,7 @@ public class ChatRoomService : IChatRoomService
         catch (Exception ex)
         {
             _logger.LogError(ex, $"[ChatRoomService] - Error creating chat room: {createChatRoomDto.Name}");
-            return ResponseApi<ChatRoomDto>.Fail(500, $"Internal server error: {ex.Message}");
+            return ResponseApi<ChatRoomDto>.Fail(500, $"Error creating chat room: {ex.Message} | InnerException: { ex.InnerException?.Message}");
         }
     }
 }

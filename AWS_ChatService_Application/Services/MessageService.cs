@@ -37,7 +37,7 @@ public class MessageService : IMessageService
         catch (Exception ex)
         {
             _logger.LogError(ex, $"[MessageService] - Error al obtener mensajes del chat room {chatRoomId}");
-            return ResponseApi<IEnumerable<MessageDto>>.Fail(500, $"Error al obtener mensajes: {ex.Message}");
+            return ResponseApi<IEnumerable<MessageDto>>.Fail(500, $"Error al obtener mensajes: {ex.Message} | InnerException: {ex.InnerException?.Message}");
         }
     }
 
@@ -53,7 +53,7 @@ public class MessageService : IMessageService
         catch (Exception ex)
         {
             _logger.LogError(ex, $"[MessageService] - Error al enviar mensaje al chat room {messageDto.ChatRoomId}");
-            return ResponseApi<MessageDto>.Fail(500, $"Error al enviar mensaje: {ex.Message}");
+            return ResponseApi<MessageDto>.Fail(500, $"Error al enviar mensaje: {ex.Message}| InnerException: {ex.InnerException?.Message}");
         }
     }
 }
