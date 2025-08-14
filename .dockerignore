@@ -1,10 +1,24 @@
-bin/
-obj/
+# Excluir directorios de build y resultados de pruebas
+**/bin/
+**/obj/
+**/TestResults/
+
+# Configuraciones de IDE
+.vs/
+.vscode/
+
+# Git y archivos de control de versiones
 .git/
 .gitignore
-Dockerfile
-README.md
-LICENSE.txt
+
+# Documentación y scripts
 *.md
 *.sh
+
+# Proyecto de tests (si no lo quieres en el build)
 xUnitTest/
+
+# Archivos específicos que no deben entrar
+Dockerfile
+LICENSE.txt
+README.md
