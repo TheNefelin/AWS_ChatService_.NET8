@@ -14,7 +14,7 @@ docker run -d -p 5000:80 --name chat-app artema-chat-app
 
 | Proyecto                             | Dependencias                                                                                    |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------- |
-| **AWS\_ChatService\_Infrastructure** | Dapper<br>Npgsql<br>Microsoft.Extensions.Configuration.Abstractions<br>AWS\_ChatService\_Domain |
+| **AWS\_ChatService\_Infrastructure** | Dapper<br>Npgsq<br>Microsoft.IdentityModel.Tokens<br>Microsoft.IdentityModel.Tokens<br>Microsoft.Extensions.Configuration.Abstractions<br>AWS\_ChatService\_Domain |
 | **AWS\_ChatService\_Application**    | Microsoft.Extensions.Logging.Abstractions<br>AWS\_ChatService\_Domain                           |
 | **AWS\_ChatService\_API**            | AWS\_ChatService\_Infrastructure<br>AWS\_ChatService\_Application                               |
 | **xUnitTest**                        | Moq<br>AWS\_ChatService\_Application                                                            |

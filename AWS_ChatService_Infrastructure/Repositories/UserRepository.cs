@@ -22,7 +22,10 @@ public class UserRepository : IUserRepository
         try
         {
             _logger.LogInformation("[UserRepository] - Fetching all users from the database");
-            const string sql = "SELECT * FROM Users ORDER BY ConnectedAt DESC";
+            const string sql = 
+                "SELECT " +
+                "* " +
+                "FROM Users ORDER BY ConnectedAt DESC";
             using var conn = _dapperConnectionFactory.CreateConnection();
             return await conn.QueryAsync<User>(sql);
         }
@@ -49,6 +52,37 @@ public class UserRepository : IUserRepository
         }
     }
 
+    public async Task<User?> GetUserByEmailAsync(string email)
+    {
+        try
+        {
+            _logger.LogInformation($"[UserRepository] - Fetching user by email: {email}");
+            const string sql = "SELECT * FROM Users WHERE Email = @email";
+            using var conn = _dapperConnectionFactory.CreateConnection();
+            return await conn.QueryFirstOrDefaultAsync<User>(sql, new { email });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "[UserRepository] - Error fetching user by email");
+            throw;
+        }
+    }
+
+    public async Task<User?> GetUserByGoogleIdAsync(string googleId)
+    {
+        try
+        {
+            _logger.LogInformation($"[UserRepository] - Fetching user by Google ID: {googleId}");
+            const string sql = "SELECT * FROM Users WHERE GoogleId = @googleId";
+            using var conn = _dapperConnectionFactory.CreateConnection();
+            return await conn.QueryFirstOrDefaultAsync<User>(sql, new { googleId });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "[UserRepository] - Error fetching user by Google ID");
+            throw;
+        }
+    }
 
     public async Task CreateUserAsync(User user)
     {
