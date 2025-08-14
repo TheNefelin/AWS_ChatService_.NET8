@@ -9,15 +9,12 @@
 
 # Git y archivos de control de versiones
 .git/
-.gitignore
 
-# Documentación y scripts
+# Archivos innecesarios
 *.md
 *.sh
+*.log
+*.tmp
 
 # Proyecto de tests (si no lo quieres en el build)
 xUnitTest/
-
-# Archivos específicos que no deben entrar
-LICENSE.txt
-README.md
