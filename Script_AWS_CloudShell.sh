@@ -19,6 +19,7 @@ git clone [REPO_URL]
 
 # Enter project folder
 cd AWS_ChatService_.NET8
+ls -a
 
 # Check disk space again
 tar -czf context.tar.gz .dockerignore Dockerfile * && du -sh context.tar.gz

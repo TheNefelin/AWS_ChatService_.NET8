@@ -19,6 +19,5 @@
 xUnitTest/
 
 # Archivos específicos que no deben entrar
-Dockerfile
 LICENSE.txt
 README.md
