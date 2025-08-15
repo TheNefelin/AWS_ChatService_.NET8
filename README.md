@@ -99,7 +99,7 @@ graph TD
     A[Usuario hace clic en Iniciar sesión] --> B(Frontend autentica con Google y obtiene ID Token);
     B --> C[Frontend envía ID Token a la API];
     C --> D{Verificación del Token en el Backend};
-    D -- Válido --> E[El Backend extrae datos del usuario (googleId)];
+    D -- Válido --> E[El Backend extrae datos del usuario - googleId];
     E --> F{¿Usuario existe en la BD?};
     F -- No existe --> G[Crear nuevo usuario];
     G --> H[Generar JWT];
