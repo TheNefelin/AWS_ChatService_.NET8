@@ -15,20 +15,17 @@ RUN dotnet restore "AWS_ChatService_API/AWS_ChatService_API.csproj"
 # 3. Copiar TODO el código fuente
 COPY . .
 
-# 4. Construir el proyecto principal
+# 4. Construir el proyecto principal y publicación
 WORKDIR "/src/AWS_ChatService_API"
 RUN dotnet build "AWS_ChatService_API.csproj" -c Release -o /app/build
-
-# Fase de publicación
-FROM build AS publish
 RUN dotnet publish "AWS_ChatService_API.csproj" -c Release -o /app/publish
 
-# Fase final
+# 5. Fase final
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 
-# Configuraciones clave para resolver los problemas:
+# 6. Configuraciones clave para resolver los problemas:
 ENV ASPNETCORE_ENVIRONMENT=Development
 ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
