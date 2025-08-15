@@ -1,7 +1,23 @@
 CREATE TABLE IF NOT EXISTS Users (
-    Id UUID PRIMARY KEY,
-    Username TEXT NOT NULL,
-    ConnectedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    Email VARCHAR(320) NOT NULL,
+    GoogleId VARCHAR(255) NOT NULL,
+    Picture TEXT NULL,
+    Names VARCHAR(255) NULL,
+    IsActive BOOLEAN NOT NULL DEFAULT true,
+    CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    LastLoginAt TIMESTAMP NULL
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS IX_Users_Email ON Users(Email);
+CREATE UNIQUE INDEX IF NOT EXISTS IX_Users_GoogleId ON Users(GoogleId);
+
+INSERT INTO Users (Email, GoogleId, Names, ConnectedAt)
+VALUES (
+    'bot@user.ia',
+    'google_fake_123456789',
+    'T-800',
+    CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS ChatRooms (
@@ -19,9 +35,6 @@ CREATE TABLE IF NOT EXISTS Messages (
 );
 
 
-INSERT INTO Users (Id, Username, ConnectedAt)
-VALUES ('11112222-3333-4444-5555-666677778888', 'Usuario de Prueba', CURRENT_TIMESTAMP);
-
 INSERT INTO ChatRooms (Id, Name, CreatedAt)
 VALUES ('11112222-3333-4444-5555-666677778888', 'Sala de Prueba', CURRENT_TIMESTAMP);
 
@@ -34,3 +47,7 @@ VALUES
 SELECT * FROM Users;
 SELECT * FROM ChatRooms;
 SELECT * FROM Messages;
+
+DROP TABLE IF EXISTS Messages;
+DROP TABLE IF EXISTS ChatRooms;
+DROP TABLE IF EXISTS Users;

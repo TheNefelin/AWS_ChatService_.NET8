@@ -8,21 +8,30 @@ public static class UserMapper
     public static UserDto ToDto(User user) => new UserDto
     {
         Id = user.Id,
-        Username = user.Username,
-        ConnectedAt = user.ConnectedAt
+        Email = user.Email,
+        GoogleId = user.GoogleId,
+        Picture = user.Picture,
+        Names = user.Names,
+        IsActive = user.IsActive,
+        ConnectedAt = user.ConnectedAt,
+        LastLoginAt = user.LastLoginAt,
     };
 
     public static User ToEntity(UserDto dto) => new User
     {
         Id = dto.Id,
-        Username = dto.Username,
-        ConnectedAt = dto.ConnectedAt
+        Email = dto.Email,
+        GoogleId = dto.GoogleId,
+        Picture = dto.Picture,
+        Names = dto.Names,
+        IsActive = dto.IsActive,
+        LastLoginAt = DateTime.UtcNow
     };
 
     public static User ToEntity(CreateUserDto dto) => new User
     {
-        Id = Guid.NewGuid(),
-        Username = dto.Username,
-        ConnectedAt = DateTime.UtcNow
+        Email = dto.Email,
+        GoogleId = dto.GoogleId,
+        LastLoginAt = DateTime.UtcNow
     };
 }

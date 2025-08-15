@@ -39,15 +39,15 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins(
-                    "http://localhost:3000",
-                    "http://127.0.0.1:3000",
-                    "http://localhost:4200",    // Añade tu puerto de Angular
-                    "http://127.0.0.1:4200"     // Añade tu puerto de Angular
-                )
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials()
-                .SetIsOriginAllowed(_ => true);
+                "http://localhost:3000",
+                "http://127.0.0.1:3000",
+                "http://localhost:4200",    // Añade tu puerto de Angular
+                "http://127.0.0.1:4200"     // Añade tu puerto de Angular
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .SetIsOriginAllowed(_ => true);
         });
 });
 

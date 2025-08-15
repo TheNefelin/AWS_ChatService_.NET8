@@ -3,10 +3,11 @@
 public class User
 {
     public Guid Id { get; set; }
-    public string Username { get; set; } = default!;
     public string Email { get; set; } = default!;
-    public string? GoogleId { get; set; }
+    public string GoogleId { get; set; } = default!;
     public string? Picture { get; set; }
+    public string? Names { get; set; }
+    public bool IsActive { get; set; }
     public DateTime ConnectedAt { get; set; }
     public DateTime? LastLoginAt { get; set; }
 

@@ -55,7 +55,7 @@ public class UserService : IUserService
                 return ResponseApi<UserDto?>.Fail(404, "Usuario no encontrado");
             }
 
-            _logger.LogInformation($"[UserService] - Usuario encontrado: {user.Username}");
+            _logger.LogInformation($"[UserService] - Usuario encontrado: {user.Email}");
             return ResponseApi<UserDto?>.Success(UserMapper.ToDto(user));
         }
         catch (Exception ex)
@@ -69,8 +69,8 @@ public class UserService : IUserService
     {
         try
         {
-            _logger.LogInformation($"[UserService] - Creando usuario: {createUserDto.Username}");
-            if (string.IsNullOrWhiteSpace(createUserDto.Username))
+            _logger.LogInformation($"[UserService] - Creando usuario: {createUserDto.Email}");
+            if (string.IsNullOrWhiteSpace(createUserDto.Email))
             {
                 _logger.LogWarning("[UserService] - Username es requerido para crear un usuario");
                 return ResponseApi<UserDto>.Fail(400, "Username es requerido");
@@ -82,7 +82,7 @@ public class UserService : IUserService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"[UserService] - Error al crear usuario: {createUserDto.Username}");
+            _logger.LogError(ex, $"[UserService] - Error al crear usuario: {createUserDto.Email}");
             return ResponseApi<UserDto>.Fail(500, $"Error interno: {ex.Message} | InnerException: {ex.InnerException?.Message}");
         }
     }
@@ -91,14 +91,14 @@ public class UserService : IUserService
     {
         try
         {
-            _logger.LogInformation($"[UserService] - Actualizando usuario: {userDto.Username}");
+            _logger.LogInformation($"[UserService] - Actualizando usuario: {userDto.Email}");
             var user = UserMapper.ToEntity(userDto);
             await _userRepository.UpdateUserAsync(user);
             return ResponseApi<UserDto>.Success(UserMapper.ToDto(user), 201);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"[UserService] - Error al actualizar usuario: {userDto.Username}");
+            _logger.LogError(ex, $"[UserService] - Error al actualizar usuario: {userDto.Email}");
             return ResponseApi<UserDto>.Fail(500, $"Error interno: {ex.Message} | InnerException: {ex.InnerException?.Message}");
         }
     }

@@ -41,7 +41,7 @@ public class UserServiceTests
     {
         // Arrange
         var userId = Guid.NewGuid();
-        var user = new User { Id = userId, Username = "John Doe", ConnectedAt = DateTime.UtcNow };
+        var user = new User { Id = userId, Email = "JohnDoe@test.com", ConnectedAt = DateTime.UtcNow };
         _mockRepo.Setup(r => r.GetUserByIdAsync(userId)).ReturnsAsync(user);
 
         // Act
@@ -50,7 +50,7 @@ public class UserServiceTests
         // Assert
         Assert.Equal(200, result.StatusCode);
         Assert.NotNull(result.Data);
-        Assert.Equal("John Doe", result.Data!.Username);
+        Assert.Equal("JohnDoe@test.com", result.Data!.Email);
     }
 
     [Fact]
@@ -74,8 +74,8 @@ public class UserServiceTests
         // Arrange
         var users = new List<User>
         {
-            new User { Id = Guid.NewGuid(), Username = "User1", ConnectedAt = DateTime.UtcNow },
-            new User { Id = Guid.NewGuid(), Username = "User2", ConnectedAt = DateTime.UtcNow }
+            new User { Id = Guid.NewGuid(), Email = "JohnDoe@test1.com", ConnectedAt = DateTime.UtcNow },
+            new User { Id = Guid.NewGuid(), Email = "JohnDoe@test2.com", ConnectedAt = DateTime.UtcNow }
         };
         _mockRepo.Setup(r => r.GetAllUsersAsync()).ReturnsAsync(users);
 
@@ -86,15 +86,15 @@ public class UserServiceTests
         Assert.Equal(200, result.StatusCode);
         Assert.NotNull(result.Data);
         Assert.Equal(2, result.Data!.Count());
-        Assert.Contains(result.Data, u => u.Username == "User1");
-        Assert.Contains(result.Data, u => u.Username == "User2");
+        Assert.Contains(result.Data, u => u.Email == "JohnDoe@test1.com");
+        Assert.Contains(result.Data, u => u.Email == "JohnDoe@test2.com");
     }
 
     [Fact]
     public async Task CreateUserAsync_should_create_and_return_user()
     {
         // Arrange
-        var createUserDto = new CreateUserDto { Username = "NewUser" };
+        var createUserDto = new CreateUserDto { Email = "JohnDoe@test.com" };
         User? savedUser = null;
         _mockRepo.Setup(r => r.CreateUserAsync(It.IsAny<User>()))
                  .Callback<User>(u => savedUser = u)
@@ -106,7 +106,7 @@ public class UserServiceTests
         // Assert
         Assert.Equal(200, result.StatusCode);
         Assert.NotNull(result.Data);
-        Assert.Equal("NewUser", result.Data!.Username);
+        Assert.Equal("JohnDoe@test.com", result.Data!.Email);
         Assert.Equal(savedUser!.Id, result.Data.Id);
     }
 
@@ -114,7 +114,7 @@ public class UserServiceTests
     public async Task UpdateUserAsync_should_update_and_return_user()
     {
         // Arrange
-        var userDto = new UserDto { Id = Guid.NewGuid(), Username = "UpdatedUser", ConnectedAt = DateTime.UtcNow };
+        var userDto = new UserDto { Id = Guid.NewGuid(), Email = "JohnDoe@test.com", ConnectedAt = DateTime.UtcNow };
         User? updatedUser = null;
         _mockRepo.Setup(r => r.UpdateUserAsync(It.IsAny<User>()))
                  .Callback<User>(u => updatedUser = u)
@@ -126,7 +126,7 @@ public class UserServiceTests
         // Assert
         Assert.Equal(201, result.StatusCode);
         Assert.NotNull(result.Data);
-        Assert.Equal("UpdatedUser", result.Data!.Username);
+        Assert.Equal("JohnDoe@test.com", result.Data!.Email);
         Assert.Equal(updatedUser!.Id, result.Data.Id);
     }
 

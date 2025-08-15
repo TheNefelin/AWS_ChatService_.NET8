@@ -22,10 +22,18 @@ public class UserRepository : IUserRepository
         try
         {
             _logger.LogInformation("[UserRepository] - Fetching all users from the database");
-            const string sql = 
-                "SELECT " +
-                "* " +
-                "FROM Users ORDER BY ConnectedAt DESC";
+            const string sql = @"
+                SELECT 
+                    Id,
+                    Email,
+                    GoogleId,
+                    Picture,
+                    Names,
+                    IsActive,
+                    ConnectedAt,
+                    LastLoginAt
+                FROM Users
+                ORDER BY Email DESC";
             using var conn = _dapperConnectionFactory.CreateConnection();
             return await conn.QueryAsync<User>(sql);
         }
@@ -88,7 +96,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            _logger.LogInformation($"[UserRepository] - Creating user: {user.Username}");
+            _logger.LogInformation($"[UserRepository] - Creating user: {user.Email}");
             const string sql = @"INSERT INTO Users (Id, Username, ConnectedAt) VALUES (@Id, @Username, @ConnectedAt)";
             using var conn = _dapperConnectionFactory.CreateConnection();
             await conn.ExecuteAsync(sql, user);
@@ -104,7 +112,7 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            _logger.LogInformation($"[UserRepository] - Updating user: {user.Username}");
+            _logger.LogInformation($"[UserRepository] - Updating user: {user.Email}");
             const string sql = @"UPDATE Users SET Username = @Username, ConnectedAt = @ConnectedAt WHERE Id = @Id";
             using var conn = _dapperConnectionFactory.CreateConnection();
             await conn.ExecuteAsync(sql, user);

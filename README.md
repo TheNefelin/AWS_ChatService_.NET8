@@ -2,18 +2,11 @@
 
 Microservicio de chat construido en .NET 8 siguiendo principios de Clean Architecture y SOLID, preparado para despliegue en AWS Alchemy Lab.
 
-### Correr API con Dokerfile
-- Abrir CMD o PowerShell en la raiz de la solucion
-- [App URL](http://localhost:5000/swagger/index.html)
-```bash
-docker build -t artema-chat-app .
-docker run -d -p 5000:80 --name chat-app artema-chat-app
-```
-
 ### Dependencias
 
 | Proyecto                             | Dependencias                                                                                    |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| **AWS\_ChatService\_Domain**         |                                                                                                 |
 | **AWS\_ChatService\_Infrastructure** | Dapper<br>Npgsq<br>Microsoft.IdentityModel.Tokens<br>Microsoft.IdentityModel.Tokens<br>Microsoft.Extensions.Configuration.Abstractions<br>AWS\_ChatService\_Domain |
 | **AWS\_ChatService\_Application**    | Microsoft.Extensions.Logging.Abstractions<br>AWS\_ChatService\_Domain                           |
 | **AWS\_ChatService\_API**            | AWS\_ChatService\_Infrastructure<br>AWS\_ChatService\_Application                               |
@@ -40,6 +33,8 @@ AWS_ChatService_.NET8/
 │   ├── Common/
 |   │   └── ResponseApi
 │   ├── DTOs/
+│   │   ├── AuthGoogleDto.cs
+│   │   ├── AuthResponseDto.cs
 │   │   ├── ChatRoomDto.cs              → DTO para salas de chat (aún no implementado)
 │   │   ├── CreateChatRoomDto.cs        → DTO para crear salas de chat
 │   │   ├── CreateUserDto.cs            → DTO para crear usuarios
@@ -50,6 +45,8 @@ AWS_ChatService_.NET8/
 │   │   ├── IMessageService.cs          → Interfaz de servicio para mensajes
 │   │   └── IUserService.cs             → Interfaz de servicio para usuarios (aún no implementado)
 |   ├── Mappers/
+│   │   ├── ChatRoomMapper.cs
+│   │   ├── MessageMapper.cs
 │   │   └── UserMapper.cs
 │   └── Services/
 │       ├── ChatRoomService.cs          → Lógica de negocio para sala de chat
@@ -57,6 +54,8 @@ AWS_ChatService_.NET8/
 │       └── UserService.cs              → Lógica de negocio para usuarios
 │
 ├── AWS_ChatService_Domain/             → Class Library
+│   ├── DTOs/
+│   │   └── JwtConfigData.cs
 │   ├── Entities/
 │   │   ├── ChatRoom.cs                 → Entidad de sala de chat
 │   │   ├── Message.cs                  → Entidad de mensaje
@@ -69,10 +68,16 @@ AWS_ChatService_.NET8/
 ├── AWS_ChatService_Infrastructure/     → Class Library
 │   ├── Configuration/
 │   │   └── DapperConnectionFactory.cs  → Fábrica de conexiones Dapper
-│   └── Repositories/
-│       ├── ChatRoomRepository.cs       → Implementación de IChatRoomRepository
-│       ├── MessageRepository.cs        → Implementación de IMessageRepository
-│       └── UserRepository.cs           → Implementación de IUserRepository
+│   ├── Interfaces/
+│   │   ├── IGoogleAuthService.cs
+│   │   └── IJwtService.cs
+│   ├── Repositories/
+│   │   ├── ChatRoomRepository.cs       → Implementación de IChatRoomRepository
+│   │   ├── MessageRepository.cs        → Implementación de IMessageRepository
+│   │   └── UserRepository.cs           → Implementación de IUserRepository
+│   └── Services/
+│       ├── GoogleAuthService.cs
+│       └── JwtService.cs
 │
 ├── xUnitTest/
 │   └── SinTestAun/
@@ -84,6 +89,24 @@ AWS_ChatService_.NET8/
 ├── Script_AWS_CloudShell.sh
 ├── Script_AWS_EC2.sh
 └── Script_Docker_Local.sh                          
+```
+
+---
+
+## 🏗️ Flujo de Autenticacoión
+```mermaid
+graph TD
+    A[Usuario hace clic en Iniciar sesión] --> B(Frontend autentica con Google y obtiene ID Token);
+    B --> C[Frontend envía ID Token a la API];
+    C --> D{Verificación del Token en el Backend};
+    D -- Válido --> E[El Backend extrae datos del usuario (googleId)];
+    E --> F{¿Usuario existe en la BD?};
+    F -- No existe --> G[Crear nuevo usuario];
+    G --> H[Generar JWT];
+    F -- Existe --> I[Recuperar usuario existente];
+    I --> H;
+    H --> J[Devolver JWT al Frontend];
+    J --> K[El Frontend usa el JWT para acceder a la API];
 ```
 
 ---
@@ -406,7 +429,7 @@ Request:
 
 ```Dockerfile
 # Fase de construcción
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS builder
 WORKDIR /src
 
 # 1. Copiar solución y archivos .csproj individuales (para caché eficiente)
@@ -422,20 +445,17 @@ RUN dotnet restore "AWS_ChatService_API/AWS_ChatService_API.csproj"
 # 3. Copiar TODO el código fuente
 COPY . .
 
-# 4. Construir el proyecto principal
+# 4. Construir el proyecto principal y publicación
 WORKDIR "/src/AWS_ChatService_API"
 RUN dotnet build "AWS_ChatService_API.csproj" -c Release -o /app/build
-
-# Fase de publicación
-FROM build AS publish
 RUN dotnet publish "AWS_ChatService_API.csproj" -c Release -o /app/publish
 
-# Fase final
+# 5. Fase final
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=builder /app/publish .
 
-# Configuraciones clave para resolver los problemas:
+# 6. Configuraciones clave para resolver los problemas:
 ENV ASPNETCORE_ENVIRONMENT=Development
 ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
@@ -443,3 +463,23 @@ EXPOSE 80
 ENTRYPOINT ["dotnet", "AWS_ChatService_API.dll"]
 ```
 
+```Dockerfile
+# Etapa final y única (solo runtime, no SDK)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+
+# Establecer el directorio de trabajo
+WORKDIR /app
+
+# Copiar la aplicación publicada desde el contexto local
+COPY . .
+
+# Configurar el entorno (opcional)
+ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_URLS=http://+:80
+
+# Exponer el puerto
+EXPOSE 80
+
+# Iniciar la aplicación
+ENTRYPOINT ["dotnet", "AWS_ChatService_API.dll"]
+```

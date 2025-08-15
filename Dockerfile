@@ -1,5 +1,5 @@
 # Fase de construcción
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS builder
 WORKDIR /src
 
 # 1. Copiar solución y archivos .csproj individuales (para caché eficiente)
@@ -23,7 +23,7 @@ RUN dotnet publish "AWS_ChatService_API.csproj" -c Release -o /app/publish
 # 5. Fase final
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-COPY --from=build /app/publish .
+COPY --from=builder /app/publish .
 
 # 6. Configuraciones clave para resolver los problemas:
 ENV ASPNETCORE_ENVIRONMENT=Development
